@@ -41,21 +41,6 @@
             end
         end
 
-        local b_win_visibility = true
-        function ToggleWindow(flags, hotspot_id)
-
-            if b_win_visibility == false then
-
-                WindowShow(win, true)
-                b_win_visibility = true
-                UpdateDirection(0)
-            else
-                WindowShow(win, false)
-                b_win_visibility = false
-            end
-            direction = 0
-        end
-
         function HandleShudders(_, _, wildcards)
 
             if wildcards[1] == "sharply " then
@@ -139,6 +124,27 @@
             WindowPosition(win, 0, 0, 7, 0)
         end
 
+        function ResetHeading()
+
+            direction = 0
+            UpdateDirection()
+        end
+
+        local b_win_visibility = true
+        function ToggleWindow(flags, hotspot_id)
+
+            if b_win_visibility == false then
+
+                WindowShow(win, true)
+                b_win_visibility = true
+                UpdateDirection(0)
+            else
+                WindowShow(win, false)
+                b_win_visibility = false
+            end
+            direction = 0
+        end
+
         function InitWindow()
 
             WindowCreate (win, 0, 0, 200, 200, 7, 0, ColourNameToRGB(background_colour))  -- create window
@@ -198,12 +204,13 @@
         </alias>
 
         <alias
-            script="resetHeading"
+            script="ResetHeading"
             match="^!sailres"
             enabled="y"
             sequence="11"
             ignore_case="y"
             regexp="y"
+        >
         </alias>
     </aliases>
 
