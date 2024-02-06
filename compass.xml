@@ -66,10 +66,11 @@
 
             if wildcards[1] == "port" then
 
-                    direction = CircularValue(direction - 1)
-                else
-                    direction = CircularValue(direction + 1)
-                end
+                direction = CircularValue(direction - 1)
+            else
+                direction = CircularValue(direction + 1)
+            end
+            UpdateDirection()
         end
 
         function HandleSpinner(_, _, wildcards)
