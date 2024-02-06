@@ -21,25 +21,12 @@
         local plugin_dir = "c:/games/MUSHclient/my_plugins"
         local background_colour = "white"
 
+        win_dims = 200
+        temp_dims = 0
+        scale_x = 1
         direction = 0
+        b_is_whirpool = false
         win = GetPluginID()
-        function mousedown(flags, hotspot_id)
-
-            start_x, start_y = WindowInfo(win, 14), WindowInfo(win, 15)
-        end
-
-        function dragmove(flags, hotspot_id)
-            local pos_x, pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
-
-            WindowPosition(win, pos_x - start_x, pos_y - start_y, 0, 2);
-
-            if pos_x < 0 or pos_x > GetInfo(281) or
-                pos_y < 0 or pos_y > GetInfo(280) then
-                check(SetCursor(11))
-            else
-                check(SetCursor(1))
-            end
-        end
 
         function HandleShudders(_, _, wildcards)
 
@@ -75,21 +62,23 @@
 
         function HandleSpinner(_, _, wildcards)
 
-            WindowRectOp(win, 2, 0, 0, 200, 200, ColourNameToRGB(background_colour))
-            WindowDrawImageAlpha(win, "whirpool", 0, 0, 0, 0, 1)
+            b_is_whirpool = true
         end
 
         function HandleStart(_, _, wildcards)
 
             WindowShow(win, true)
+            direction = 0
+            b_is_whirpool = false
             b_win_visibility = true
             UpdateDirection(0)
-            direction = 0
+            
         end
 
         function HandleFinish(_, _, wildcards)
 
             WindowShow(win, false)
+            b_is_whirpool = false
             b_win_visibility = false
         end
 
@@ -118,28 +107,42 @@
                 value = 0
             end
 
+            b_is_whirpool = false
             direction = value
             UpdateDirection()
         end
 
         function UpdateDirection()
 
-            WindowRectOp(win, 2, 0, 0, 200, 200, ColourNameToRGB(background_colour))
-            WindowDrawImageAlpha(win, "compass" .. direction, 0, 0, 0, 0, 1)
+            local im_dim = WindowImageInfo(win, "compass" .. direction, 2)
+            local im_scale = win_dims / im_dim
+
+            WindowRectOp(win, 2, 0, 0,  200, 200, ColourNameToRGB(background_colour))
+
+            if b_is_whirpool == true then
+
+                WindowTransformImage(win, "whirpool", 0, 0, 3, im_scale, 0, 0, im_scale)
+            else
+                WindowTransformImage(win, "compass" .. direction, 0, 0, 3, im_scale, 0, 0, im_scale)
+            end
+            WindowRectOp(win, 1, win_dims - 10, win_dims - 10, win_dims, win_dims, ColourNameToRGB("magenta"))
         end
 
         -- usage currentVal = CircularValue(currentVal +/- value)
         function CircularValue(val)
+
             return (val % 16) % 8
         end
 
         function ResetPosition()
+
             WindowPosition(win, 0, 0, 7, 0)
         end
 
         function ResetHeading()
 
             direction = 0
+            b_is_whirpool = false
             UpdateDirection()
         end
 
@@ -156,6 +159,48 @@
                 b_win_visibility = false
             end
             direction = 0
+        end
+
+        function MouseDownHotspotOne(flags, hotspot_id)
+
+            hs1_start_x, hs1_start_y = WindowInfo(win, 14), WindowInfo(win, 15)
+        end
+
+        function MouseDownHotspotTwo(flags, hotspot_id)
+
+            hs2_start_x, hs2_start_y = WindowInfo(win, 17), WindowInfo(win, 18)
+            temp_dims = win_dims
+        end
+
+        function DragMoveHotspotOne(flags, hotspot_id)
+            local hs1_pos_x, hs1_pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
+
+            WindowPosition(win, hs1_pos_x - hs1_start_x, hs1_pos_y - hs1_start_y, 0, 2);
+
+            if hs1_pos_x < 0 or hs1_pos_x > GetInfo(281) or
+                hs1_pos_y < 0 or hs1_pos_y > GetInfo(280) then
+                check(SetCursor(11))
+            else
+                check(SetCursor(1))
+            end
+        end
+
+        function DragMoveHotspotTwo(flags, hotspot_id)
+
+            local hs2_pos_x, hs2_pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
+
+            scale_x = hs2_pos_x / hs2_start_x
+            win_dims = math.floor((temp_dims * scale_x) + 0.5)
+            
+            WindowResize(win, win_dims, win_dims, ColourNameToRGB ("magenta"))
+        end
+
+        function MouseUpHotspotTwo(flags, hotspot_id)
+
+            WindowMoveHotspot(win, "hs2", win_dims - 10, win_dims - 10, win_dims, win_dims)
+            WindowMoveHotspot(win, "hs1", 10, 10, win_dims - 10, win_dims - 10)
+            
+            UpdateDirection()
         end
 
         function InitWindow()
@@ -176,16 +221,29 @@
 
             -- make a hotspot
             WindowAddHotspot(win, "hs1",  
-                            0, 0, 200, 200,   -- rectangle
+                            10, 10, 190, 190,   -- rectangle
                             "",   -- MouseOver
                             "",   -- CancelMouseOver
-                            "mousedown",
-                            "cancelmousedown", 
-                            "mouseup", 
-                            "Drag me!",  -- tooltip text
+                            "MouseDownHotspotOne",
+                            "", 
+                            "", 
+                            "",  -- tooltip text
                             1, 0)  -- hand cursor
                             
-            WindowDragHandler(win, "hs1", "dragmove", "dragrelease", 0) 
+            WindowDragHandler(win, "hs1", "DragMoveHotspotOne", "", 0) 
+
+            WindowAddHotspot(win, "hs2",
+                            190, 190, 200, 200,
+                            "",   -- MouseOver
+                            "",   -- CancelMouseOver
+                            "MouseDownHotspotTwo",
+                            "MouseUpHotspotTwo",
+                            "",
+                            "",
+                            6, 0)
+
+            WindowDragHandler(win, "hs2", "DragMoveHotspotTwo", "", 0)
+
                     
             WindowShow (win,  false)  -- show it 
         end
@@ -230,7 +288,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="The ship shudders around you as it turns (sharply )*to (port|starboard)"
+            match="^The ship shudders around you as it turns (sharply )*to (port|starboard)"
             regexp="y"
             sequence="12"
             script="HandleShudders"
@@ -241,7 +299,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="The powerful headwind causes the ship to drift off course to (port|starboard)"
+            match="^The powerful headwind causes the ship to drift off course to (port|starboard)"
             regexp="y"
             sequence="12"
             script="HandleDrift"
@@ -252,7 +310,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before."
+            match="^The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before."
             regexp="n"
             sequence="12"
             script="HandleSpinner"
@@ -263,7 +321,7 @@
         <trigger
             enabled="y"
             keep_evaluating="y"
-            match="(?:Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (?<=heading )(.*?)(?=(\s|\.))"
+            match="^(?:Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (?<=heading )(.*?)(?=(\s|\.))"
             regexp="y"
             sequence="12"
             script="HandleDirection"
@@ -273,7 +331,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="The loading of the ship complete, Chidder wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
+            match="^The loading of the ship complete, Chidder wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
             regexp="n"
             sequence="12"
             script="HandleStart"
@@ -283,7 +341,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="The ship pulls into port.  You've arrived."
+            match="^The ship pulls into port.  You've arrived."
             regexp="n"
             sequence="12"
             script="HandleFinish"
