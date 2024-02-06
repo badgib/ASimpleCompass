@@ -21,6 +21,6 @@ soon
 
 ### commands ###
 
-* sailwin - toggles the window visibility
-* sailpos - resets the window position
-* sailres - resets the heading 
+* !sailwin - toggles the window visibility
+* !sailpos - resets the window position
+* !sailres - resets the heading 
