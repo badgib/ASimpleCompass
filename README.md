@@ -52,4 +52,4 @@ should be removed
 
 ## TODO ##
 * fix graphics
-* add proper window scaling
+* fix the weird behaviour when window is smaller (black border on bottom right)
