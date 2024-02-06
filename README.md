@@ -48,3 +48,4 @@ should be removed
 ## TODO ##
 * fix graphics
 * add distances
+* add proper scaling
