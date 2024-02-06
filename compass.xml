@@ -249,7 +249,7 @@
         <trigger
             enabled="y"
             keep_evaluating="y"
-            match="(?:Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (?<=heading )(.*?)(?=\s)"
+            match="(?:Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (?<=heading )(.*?)(?=(\s|\.))"
             regexp="y"
             sequence="12"
             script="HandleDirection"
