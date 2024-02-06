@@ -75,7 +75,6 @@
         function HandleSpinner(_, _, wildcards)
 
             WindowRectOp(win, 2, 0, 0, 200, 200, ColourNameToRGB(background_colour))
-            WindowRectOp (win, 1, 0, 0, 60, 20, 0, 0)
             WindowDrawImageAlpha(win, "whirpool", 0, 0, 0, 0, 1)
         end
 
@@ -111,7 +110,6 @@
         function UpdateDirection()
 
             WindowRectOp(win, 2, 0, 0, 200, 200, ColourNameToRGB(background_colour))
-            WindowRectOp (win, 1, 0, 0, 60, 20, 0, 0)
             WindowDrawImageAlpha(win, "compass" .. direction, 0, 0, 0, 0, 1)
         end
 
@@ -163,7 +161,7 @@
 
             -- make a hotspot
             WindowAddHotspot(win, "hs1",  
-                            0, 0, 60, 20,   -- rectangle
+                            0, 0, 200, 200,   -- rectangle
                             "",   -- MouseOver
                             "",   -- CancelMouseOver
                             "mousedown",
