@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE muclient>
+
+<muclient>
+  <plugin
+     name="ASimpleCompass"
+     author="gib"
+     id="7b2a2ebfb6c27fd36abad61b"
+     language="Lua"
+     purpose="to help with sails"
+     date_written="2024-02-06 04:20:42"
+     requires="5.06"
+     version="0.78"
+  >
+  </plugin>
+
+  <script>
+    <![CDATA[
+
+        -- edit the directory and background colour
+        local plugin_dir = "c:/games/MUSHclient/my_plugins"
+        local background_colour = "white"
+
+        direction = 0
+        win = GetPluginID()
+        function mousedown(flags, hotspot_id)
+
+            start_x, start_y = WindowInfo(win, 14), WindowInfo(win, 15)
+        end
+
+        function dragmove(flags, hotspot_id)
+            local pos_x, pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
+
+            WindowPosition(win, pos_x - start_x, pos_y - start_y, 0, 2);
+
+            if pos_x < 0 or pos_x > GetInfo(281) or
+                pos_y < 0 or pos_y > GetInfo(280) then
+                check(SetCursor(11))
+            else
+                check(SetCursor(1))
+            end
+        end
+
+        local b_win_visibility = true
+        function ToggleWindow(flags, hotspot_id)
+
+            if b_win_visibility == false then
+
+                WindowShow(win, true)
+                b_win_visibility = true
+                UpdateDirection(0)
+            else
+                WindowShow(win, false)
+                b_win_visibility = false
+            end
+            direction = 0
+        end
+
+        function HandleShudders(_, _, wildcards)
+
+            if wildcards[1] == "sharply " then
+                if wildcards[2] == "port" then
+
+                    direction = CircularValue(direction - 2)
+                else
+                    direction = CircularValue(direction + 2)
+                end
+            else
+                if wildcards[2] == "port" then
+
+                    direction = CircularValue(direction - 1)
+                else
+                    direction = CircularValue(direction + 1)
+                end
+
+            end
+            UpdateDirection()
+        end
+
+        function HandleDrift(_, _, wildcards)
+
+            if wildcards[1] == "port" then
+
+                    direction = CircularValue(direction - 1)
+                else
+                    direction = CircularValue(direction + 1)
+                end
+        end
+
+        function HandleSpinner(_, _, wildcards)
+
+            WindowRectOp(win, 2, 0, 0, 200, 200, ColourNameToRGB(background_colour))
+            WindowRectOp (win, 1, 0, 0, 60, 20, 0, 0)
+            WindowDrawImageAlpha(win, "whirpool", 0, 0, 0, 0, 1)
+        end
+
+        function HandleDirection(_, _, wildcards)
+
+            local wildcard = wildcards[1]
+            local value = 0
+            if wildcard == "hubwards" then
+                value = 0
+            elseif wildcard == "widdershins-hubwards" then
+                value = 1
+            elseif wildcard == "widdershins" then
+                value = 2
+            elseif wildcard == "widdershins-rimwards" then
+                value = 3
+            elseif wildcard == "rimwards" then
+                value = 4
+            elseif wildcard == "turnwise-rimwards" then
+                value = 5
+            elseif wildcard == "turnwise" then
+                value = 6
+            elseif wildcard == "turnwise-hubwards" then
+                value = 7
+            else
+                print("unknown direction: " .. wildcard[1])
+                value = 0
+            end
+
+            direction = value
+            UpdateDirection()
+        end
+
+        function UpdateDirection()
+
+            WindowRectOp(win, 2, 0, 0, 200, 200, ColourNameToRGB(background_colour))
+            WindowRectOp (win, 1, 0, 0, 60, 20, 0, 0)
+            WindowDrawImageAlpha(win, "compass" .. direction, 0, 0, 0, 0, 1)
+        end
+
+        -- usage currentVal = CircularValue(currentVal +/- value)
+        function CircularValue(val)
+            return (val % 16) % 8
+        end
+
+        function ResetPosition()
+            WindowPosition(win, 0, 0, 7, 0)
+        end
+
+        function InitWindow()
+
+            WindowCreate (win, 0, 0, 200, 200, 7, 0, ColourNameToRGB(background_colour))  -- create window
+
+            WindowLoadImage(win, "compass0", plugin_dir .. "/compass0.png")
+            WindowLoadImage(win, "compass1", plugin_dir .. "/compass1.png")
+            WindowLoadImage(win, "compass2", plugin_dir .. "/compass2.png")
+            WindowLoadImage(win, "compass3", plugin_dir .. "/compass3.png")
+            WindowLoadImage(win, "compass4", plugin_dir .. "/compass4.png")
+            WindowLoadImage(win, "compass5", plugin_dir .. "/compass5.png")
+            WindowLoadImage(win, "compass6", plugin_dir .. "/compass6.png")
+            WindowLoadImage(win, "compass7", plugin_dir .. "/compass7.png")
+            WindowLoadImage(win, "whirpool", plugin_dir .. "/whirpool.png")
+
+            UpdateDirection()
+
+            -- make a hotspot
+            WindowAddHotspot(win, "hs1",  
+                            0, 0, 60, 20,   -- rectangle
+                            "",   -- MouseOver
+                            "",   -- CancelMouseOver
+                            "mousedown",
+                            "cancelmousedown", 
+                            "mouseup", 
+                            "Drag me!",  -- tooltip text
+                            1, 0)  -- hand cursor
+                            
+            WindowDragHandler(win, "hs1", "dragmove", "dragrelease", 0) 
+                    
+            WindowShow (win,  true)  -- show it 
+        end
+
+        InitWindow()
+
+    ]]>
+    </script>
+
+    <aliases>
+        <alias
+            script="ToggleWindow"
+            match="^!sailwin"
+            enabled="y"
+            sequence="10"
+            ignore_case="y"
+            regexp="y"
+        >
+        </alias>
+
+        <alias
+            script="ResetPosition"
+            match="^!sailpos"
+            enabled="y"
+            sequence="11"
+            ignore_case="y"
+            regexp="y"
+        >
+        </alias>
+
+        <alias
+            script="resetHeading"
+            match="^!sailres"
+            enabled="y"
+            sequence="11"
+            ignore_case="y"
+            regexp="y"
+        </alias>
+    </aliases>
+
+    <triggers>
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="The ship shudders around you as it turns (sharply )*to (port|starboard)"
+            regexp="y"
+            sequence="12"
+            script="HandleShudders"
+            name="ShipShudders"
+        >
+        </trigger>
+
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="The powerful headwind causes the ship to drift off course to (port|starboard)"
+            regexp="y"
+            sequence="12"
+            script="HandleDrift"
+            name="ShipDrift"
+        >
+        </trigger>
+
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before."
+            regexp="n"
+            sequence="12"
+            script="HandleSpinner"
+            name="ShipSpinning"
+        >
+        </trigger>
+
+        <trigger
+            enabled="y"
+            keep_evaluating="y"
+            match="(?:Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (?<=heading )(.*?)(?=\s)"
+            regexp="y"
+            sequence="12"
+            script="HandleDirection"
+            name="ShipDirection"
+        >
+        </trigger>
+    </triggers>
+</muclient>
