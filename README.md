@@ -4,19 +4,22 @@ made for sailing in discworld
 
 images weren't that important
 * i'm tired
- * will fix it
+  * will fix it
 soon
 
 ### installation ##
 
 * go to MUSHCLient directory, make my_plugins or select some path
   * put all the files in there
-* in MUSHClient:
+  * open the _compass.xml_ file in any text editor
+    * edit the _plugin_dir_ variable to point to selected diredtory
+t pt * in MUSHClient:
   * file
-  * plugins
-  * add
+    * plugins (or __ctrl + shift + p__)
+  * click the _add_ button
   * browse to the .xml and select it
   * close the window
+  * save! (__ctrl + s__)
   * enjoy
 
 ### commands ###
