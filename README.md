@@ -10,6 +10,7 @@ soon
 ### what's new ###
 
 added auto show/hide on start/end of sail
+window is resizable
 
 ### installation ###
 
