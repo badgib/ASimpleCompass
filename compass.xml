@@ -79,6 +79,20 @@
             WindowDrawImageAlpha(win, "whirpool", 0, 0, 0, 0, 1)
         end
 
+        function HandleStart(_, _, wildcards)
+
+            WindowShow(win, true)
+            b_win_visibility = true
+            UpdateDirection(0)
+            direction = 0
+        end
+
+        function HandleFinish(_, _, wildcards)
+
+            WindowShow(win, false)
+            b_win_visibility = false
+        end
+
         function HandleDirection(_, _, wildcards)
 
             local wildcard = wildcards[1]
@@ -129,8 +143,8 @@
             UpdateDirection()
         end
 
-        local b_win_visibility = true
-        function ToggleWindow(flags, hotspot_id)
+        local b_win_visibility = false
+        function ToggleWindow()
 
             if b_win_visibility == false then
 
@@ -173,11 +187,10 @@
                             
             WindowDragHandler(win, "hs1", "dragmove", "dragrelease", 0) 
                     
-            WindowShow (win,  true)  -- show it 
+            WindowShow (win,  false)  -- show it 
         end
 
         InitWindow()
-
     ]]>
     </script>
 
@@ -255,6 +268,26 @@
             sequence="12"
             script="HandleDirection"
             name="ShipDirection"
+        >
+        </trigger>
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="The loading of the ship complete, Chidder wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
+            regexp="n"
+            sequence="12"
+            script="HandleStart"
+            name="MissionStart"
+        >
+        </trigger>
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="The ship pulls into port.  You've arrived."
+            regexp="n"
+            sequence="12"
+            script="HandleFinish"
+            name="MissionFinish"
         >
         </trigger>
     </triggers>
