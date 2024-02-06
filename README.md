@@ -47,5 +47,5 @@ should be removed
 
 ## TODO ##
 * fix graphics
-* add distances
-* add proper scaling
+* add proper window scaling
+* add auto show/hide window
