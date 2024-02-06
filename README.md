@@ -1,4 +1,4 @@
-#a simple compass for MUSHClient#
+# a simple compass for MUSHClient #
 
 made for sailing in discworld
 
