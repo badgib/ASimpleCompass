@@ -13,7 +13,7 @@ soon
   * put all the files in there
   * open the _compass.xml_ file in any text editor
     * edit the _plugin_dir_ variable to point to selected diredtory
-t pt * in MUSHClient:
+* in MUSHClient:
   * file
     * plugins (or __ctrl + shift + p__)
   * click the _add_ button
