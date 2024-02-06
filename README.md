@@ -7,7 +7,11 @@ images weren't that important
   * will fix it
 soon
 
-### installation ##
+### what's new ###
+
+added auto show/hide on start/end of sail
+
+### installation ###
 
 * go to MUSHCLient directory, make my_plugins or select some path
   * put all the files in there
@@ -48,4 +52,3 @@ should be removed
 ## TODO ##
 * fix graphics
 * add proper window scaling
-* add auto show/hide window
