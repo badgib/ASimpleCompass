@@ -37,7 +37,7 @@ anything that captures lines:
 
 * (Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (HEADING) and that you're (NUMBER) miles rimwards and (NUMBER) miles (widdershins|turnwise) of Ankh-Morpork.
 
-* The ship shudders around you as it turns (sharply) to (port|starboard].
+* The ship shudders around you as it turns (sharply) to (port|starboard).
 
 * The powerful headwind causes the ship to drift off course to (port|starboard).
 
