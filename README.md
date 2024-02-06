@@ -27,3 +27,20 @@ soon
 * !sailwin - toggles the window visibility
 * !sailpos - resets the window position
 * !sailres - resets the heading 
+
+### one more thing ###
+
+existing triggers might interfere with the functioning of this plugin
+it is highly advised to remove them
+
+anything that captures lines:
+
+* (Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading <HEADING> and that you're <NUMBER> miles rimwards and <NUMBER> miles (widdershins|turnwise) of Ankh-Morpork.
+
+* The ship shudders around you as it turns (sharply) to (port|starboard].
+
+* The powerful headwind causes the ship to drift off course to (port|starboard).
+
+* The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before.
+
+should be removed
