@@ -35,7 +35,7 @@ it is highly advised to remove them
 
 anything that captures lines:
 
-* (Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading <HEADING> and that you're <NUMBER> miles rimwards and <NUMBER> miles (widdershins|turnwise) of Ankh-Morpork.
+* (Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (HEADING) and that you're (NUMBER) miles rimwards and (NUMBER) miles (widdershins|turnwise) of Ankh-Morpork.
 
 * The ship shudders around you as it turns (sharply) to (port|starboard].
 
@@ -44,3 +44,7 @@ anything that captures lines:
 * The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before.
 
 should be removed
+
+## TODO ##
+* fix graphics
+* add distances
