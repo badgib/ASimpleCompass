@@ -22,7 +22,7 @@
         local plugin_dir = "c:/games/MUSHclient/my_plugins"
 
         background_colour = "black"
-        win_dim = 200
+        win_dim = 134
         temp_dim = 0
         scale = 1
         direction = 0
