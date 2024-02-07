@@ -5,6 +5,7 @@ keeps track of current heading based on messages being displayed
 
 ### what's new ###
 
+* all new images provided by Kiki!
 * added auto show/hide on start/end of sail
 * window is resizable
 * background colours can be switched without editing the plugin
@@ -49,7 +50,7 @@ anything that captures lines:
 should be removed
 
 ## TODO ##
-* fix graphics
+
 * fix the weird behaviour when window is smaller (black border on bottom right)
 * find out why it is so sluggish at resizing window without print function... which is mindboggling
   * okay, for now it's been handled a bit differently cause i can't be bothered
