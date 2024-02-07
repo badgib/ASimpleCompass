@@ -35,8 +35,8 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * !compass toggle - toggles the window visibility
 * !compass position - resets the window position
 * !compass heading - resets the heading
-* !compass size <value> - changes the size of the window
-* !compass colour <name> - changes background colour (string name)
+* !compass size \<value\> - changes the size of the window
+* !compass colour \<name\> - changes background colour (string name)
 
 ### one more thing ###
 
@@ -45,7 +45,7 @@ it is highly advised to remove them
 
 anything that captures lines:
 
-* (Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading (HEADING) and that you're (NUMBER) miles rimwards and (NUMBER) miles (widdershins|turnwise) of Ankh-Morpork.
+* (Squinting up at the sun|Gazing up at the stars), you determine that the ship is heading \<heading\> and that you're \<number\> miles rimwards and \<number\> miles (widdershins|turnwise) of Ankh-Morpork.
 
 * The ship shudders around you as it turns (sharply) to (port|starboard).
 
