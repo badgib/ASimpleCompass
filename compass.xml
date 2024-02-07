@@ -20,7 +20,7 @@
 
         -- edit the directory and background colour
         local plugin_dir = "c:/games/MUSHclient/my_plugins"
-    
+
         background_colour = "black"
         win_dim = 200
         temp_dim = 0
@@ -28,6 +28,11 @@
         direction = 0
         b_is_whirpool = false
         win = GetPluginID()
+
+        function OnPluginInstall()
+
+            ColourNote("deepwhite", "", "Compass plugin installed successfully. To toggle visibility use '!compass toggle'.")
+        end
 
         function HandleShudders(_, _, wildcards)
 
@@ -333,7 +338,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="^The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before."
+            match="The ship abruptly starts spinning in circles.  After a few rounds, it manages to escape the whirlpool, heading in a different direction from before."
             regexp="n"
             sequence="12"
             script="HandleSpinner"
@@ -354,7 +359,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="^The loading of the ship complete, Chidder wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
+            match="The loading of the ship complete, Chidder wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
             regexp="n"
             sequence="12"
             script="HandleStart"
@@ -364,7 +369,7 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="^The ship pulls into port.  You've arrived."
+            match="The ship pulls into port.  You've arrived."
             regexp="n"
             sequence="12"
             script="HandleFinish"
