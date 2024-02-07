@@ -52,4 +52,4 @@ should be removed
 * fix graphics
 * fix the weird behaviour when window is smaller (black border on bottom right)
 * find out why it is so sluggish at resizing window without print function... which is mindboggling
- * okay, for now it's been handled a bit differently cause i can't be bothered
+  * okay, for now it's been handled a bit differently cause i can't be bothered
