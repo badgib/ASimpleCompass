@@ -3,6 +3,10 @@
 made for sailing in discworld
 keeps track of current heading based on messages being displayed
 
+### thanks go to ###
+
+Kiki totally for testing, finding issues i didn't notice and, of course, the new, beautiful graphics!
+
 ### what's new ###
 
 * all new images provided by Kiki!
