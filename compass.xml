@@ -18,11 +18,11 @@
   <script>
     <![CDATA[
 
-        -- edit the directory and background colour
-        local plugin_dir = "c:/games/MUSHclient/my_plugins"
+        plugin_dir = GetInfo(66) .. "my_plugins\\"
 
+        print(plugin_dir)
         background_colour = "black"
-        im_dim = 0
+        im_dim = 134
         im_scale = 1
         dim_scaled = 0
         direction = 0
@@ -203,19 +203,18 @@
 
         function InitWindow()
 
-            WindowLoadImage(win, "compass0", plugin_dir .. "/compass0.png")
-            WindowLoadImage(win, "compass1", plugin_dir .. "/compass1.png")
-            WindowLoadImage(win, "compass2", plugin_dir .. "/compass2.png")
-            WindowLoadImage(win, "compass3", plugin_dir .. "/compass3.png")
-            WindowLoadImage(win, "compass4", plugin_dir .. "/compass4.png")
-            WindowLoadImage(win, "compass5", plugin_dir .. "/compass5.png")
-            WindowLoadImage(win, "compass6", plugin_dir .. "/compass6.png")
-            WindowLoadImage(win, "compass7", plugin_dir .. "/compass7.png")
-            WindowLoadImage(win, "whirpool", plugin_dir .. "/whirpool.png")
+            WindowCreate(win, 0, 0, im_dim, im_dim, 7, 0, ColourNameToRGB(background_colour))  -- create window
+            WindowLoadImage(win, "compass0", plugin_dir .. "compass0.png")
+            WindowLoadImage(win, "compass1", plugin_dir .. "compass1.png")
+            WindowLoadImage(win, "compass2", plugin_dir .. "compass2.png")
+            WindowLoadImage(win, "compass3", plugin_dir .. "compass3.png")
+            WindowLoadImage(win, "compass4", plugin_dir .. "compass4.png")
+            WindowLoadImage(win, "compass5", plugin_dir .. "compass5.png")
+            WindowLoadImage(win, "compass6", plugin_dir .. "compass6.png")
+            WindowLoadImage(win, "compass7", plugin_dir .. "compass7.png")
+            WindowLoadImage(win, "whirpool", plugin_dir .. "whirpool.png")
 
             im_dim = WindowImageInfo(win, "compass" .. direction, 2)
-
-            WindowCreate (win, 0, 0, im_dim, im_dim, 7, 0, ColourNameToRGB(background_colour))  -- create window
 
             UpdateDirection()
 
