@@ -14,13 +14,14 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * window is resizable (__!compass size \<value\>__)
 * background colour can be switched without editing the plugin
 * size can be reset with '!compass size
+* no need for full path! just the plugin directory name
 
 ### installation ###
 
-* go to MUSHCLient directory, make my_plugins or select some path
+* go to MUSHCLient directory and select a directory for the plugin 
   * put all the files in there
   * open the _compass.xml_ file in any text editor
-    * edit the _plugin_dir_ variable to point to selected diredtory
+    * edit the _plugin_dir_ and put the selected name inside
 * in MUSHClient:
   * file
     * plugins (or __ctrl + shift + p__)
