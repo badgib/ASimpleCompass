@@ -31,7 +31,7 @@
 
         function OnPluginInstall()
 
-            ColourNote("deepwhite", "", "Compass plugin installed successfully. To toggle visibility use '!compass toggle'.")
+            ColourNote("red", "", "Compass plugin installed successfully. To toggle visibility use '!compass toggle'.")
         end
 
         function HandleShudders(_, _, wildcards)
