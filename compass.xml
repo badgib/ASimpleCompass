@@ -22,9 +22,9 @@
         local plugin_dir = "c:/games/MUSHclient/my_plugins"
 
         background_colour = "black"
-        win_dim = 134
-        temp_dim = 0
-        scale = 1
+        im_dim = 0
+        im_scale = 1
+        dim_scaled = 0
         direction = 0
         b_is_whirpool = false
         win = GetPluginID()
@@ -120,10 +120,7 @@
 
         function UpdateDirection()
 
-            local im_dim = WindowImageInfo(win, "compass" .. direction, 2)
-            local im_scale = win_dim / im_dim
-
-            WindowRectOp(win, 2, 0, 0, win_dim, win_dim, ColourNameToRGB(background_colour))
+            WindowRectOp(win, 2, 0, 0, dim_scaled, dim_scaled, ColourNameToRGB(background_colour))
 
             if b_is_whirpool == true then
 
@@ -131,7 +128,6 @@
             else
                 WindowTransformImage(win, "compass" .. direction, 0, 0, 3, im_scale, 0, 0, im_scale)
             end
-            WindowRectOp(win, 1, win_dim - 10, win_dim - 10, win_dim, win_dim, ColourNameToRGB("magenta"))
         end
 
         -- usage currentVal = CircularValue(currentVal +/- value)
@@ -145,20 +141,20 @@
             WindowPosition(win, 0, 0, 7, 0)
         end
 
-        function ResetSize()
-
-            local im_dim = WindowImageInfo(win, "compass" .. direction, 2)
-            win_dim = im_dim
-            local im_scale = win_dim / im_dim
-
-            WindowResize(win, im_dim, im_dim, ColourNameToRGB ("magenta"))
-            UpdateDirection()
-        end
-
         function ResetHeading()
 
             direction = 0
             b_is_whirpool = false
+            UpdateDirection()
+        end
+
+        function SetSize(_, _, wildcards)
+
+            im_scale = tonumber(wildcards[1]) / 100
+            dim_scaled = im_dim * im_scale
+
+            print("scale: " .. im_scale .. " dim: " .. im_dim .. " input: " .. wildcards[1])
+            WindowResize(win, dim_scaled, dim_scaled, ColourNameToRGB ("magenta"))
             UpdateDirection()
         end
 
@@ -183,18 +179,13 @@
             direction = 0
         end
 
-        function MouseDownHotspotOne(flags, hotspot_id)
+        function MouseDownHotspot(flags, hotspot_id)
 
             hs1_start_x, hs1_start_y = WindowInfo(win, 14), WindowInfo(win, 15)
         end
 
-        function MouseDownHotspotTwo(flags, hotspot_id)
 
-            hs2_start_x, hs2_start_y = WindowInfo(win, 17), WindowInfo(win, 18)
-            temp_dim = win_dim
-        end
-
-        function DragMoveHotspotOne(flags, hotspot_id)
+        function DragMoveHotspot(flags, hotspot_id)
             local hs1_pos_x, hs1_pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
 
             WindowPosition(win, hs1_pos_x - hs1_start_x, hs1_pos_y - hs1_start_y, 0, 2);
@@ -207,33 +198,12 @@
             end
         end
 
-        function DragMoveHotspotTwo(flags, hotspot_id)
-
-            local hs2_pos_y = WindowInfo(win, 18)
-
-            scale = hs2_pos_y / hs2_start_y
-            win_dim = math.floor((temp_dim * scale) + 0.5)
-
-            WindowResize(win, win_dim, win_dim, ColourNameToRGB ("magenta"))
-            UpdateDirection()
-        end
-
-        function MouseUpHotspotOne(flags, hotspot_id)
-
-            SaveState()
-        end
-
-        function MouseUpHotspotTwo(flags, hotspot_id)
-
-            WindowMoveHotspot(win, "hs2", win_dim - 10, win_dim - 10, win_dim, win_dim)
-            WindowMoveHotspot(win, "hs1", 10, 10, win_dim - 10, win_dim - 10)
+        function MouseUpHotspot(flags, hotspot_id)
 
             SaveState()
         end
 
         function InitWindow()
-
-            WindowCreate (win, 0, 0, win_dim, win_dim, 7, 0, ColourNameToRGB(background_colour))  -- create window
 
             WindowLoadImage(win, "compass0", plugin_dir .. "/compass0.png")
             WindowLoadImage(win, "compass1", plugin_dir .. "/compass1.png")
@@ -245,34 +215,25 @@
             WindowLoadImage(win, "compass7", plugin_dir .. "/compass7.png")
             WindowLoadImage(win, "whirpool", plugin_dir .. "/whirpool.png")
 
+            im_dim = WindowImageInfo(win, "compass" .. direction, 2)
+
+            WindowCreate (win, 0, 0, im_dim, im_dim, 7, 0, ColourNameToRGB(background_colour))  -- create window
+
             UpdateDirection()
 
             -- make a hotspot
             WindowAddHotspot(win, "hs1",  
-                            10, 10, win_dim - 10, win_dim - 10,   -- rectangle
+                            0, 0, im_dim, im_dim,
                             "",   -- MouseOver
                             "",   -- CancelMouseOver
-                            "MouseDownHotspotOne",
-                            "MouseUpHotspotOne", 
+                            "MouseDownHotspot",
+                            "MouseUpHotspot", 
                             "", 
                             "",  -- tooltip text
                             0, 0)  -- hand cursor
                             
-            WindowDragHandler(win, "hs1", "DragMoveHotspotOne", "", 0) 
+            WindowDragHandler(win, "hs1", "DragMoveHotspot", "", 0) 
 
-            WindowAddHotspot(win, "hs2",
-                            win_dim - 10, win_dim - 10, win_dim, win_dim,
-                            "",   -- MouseOver
-                            "",   -- CancelMouseOver
-                            "MouseDownHotspotTwo",
-                            "MouseUpHotspotTwo",
-                            "",
-                            "",
-                            9, 0)
-
-            WindowDragHandler(win, "hs2", "DragMoveHotspotTwo", "", 0)
-
-                    
             WindowShow (win,  false)  -- show it 
         end
 
@@ -312,12 +273,12 @@
         </alias>
 
         <alias
-            script="ResetSize"
-            match="!compass size"
+            script="SetSize"
+            match="!compass size (.+)"
             enabled="y"
             sequence="11"
             ignore_case="y"
-            regexp="n"
+            regexp="y"
         >
         </alias>
 
