@@ -12,7 +12,7 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * all new graphics provided by Kiki!
 * added auto show/hide on start/end of sail
 * window is resizable (__!compass size \<value\>__)
-* background colours can be switched without editing the plugin
+* background colour can be switched without editing the plugin
 * size can be reset with '!compass size
 
 ### installation ###
