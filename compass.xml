@@ -147,9 +147,9 @@
             UpdateDirection()
         end
 
-        function SetColour(_, _, colour)
+        function SetColour(_, _, wildcards)
 
-            background_colour = tostring(colour[1])
+            background_colour = tostring(wildcards[1])
             UpdateDirection()
         end
 
