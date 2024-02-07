@@ -3,14 +3,15 @@
 
 <muclient>
   <plugin
-     name="ASimpleCompass"
-     author="gib"
-     id="7b2a2ebfb6c27fd36abad61b"
-     language="Lua"
-     purpose="to help with sails"
-     date_written="2024-02-06 04:20:42"
-     requires="5.06"
-     version="0.78"
+    name="ASimpleCompass"
+    author="gib"
+    id="7b2a2ebfb6c27fd36abad61b"
+    language="Lua"
+    purpose="to help with sails"
+    date_written="2024-02-06 04:20:42"
+    requires="5.06"
+    version="1.1"
+    save_state="y"
   >
   </plugin>
 
@@ -19,11 +20,11 @@
 
         -- edit the directory and background colour
         local plugin_dir = "c:/games/MUSHclient/my_plugins"
-        local background_colour = "white"
-
-        win_dims = 200
-        temp_dims = 0
-        scale_x = 1
+    
+        background_colour = "black"
+        win_dim = 200
+        temp_dim = 0
+        scale = 1
         direction = 0
         b_is_whirpool = false
         win = GetPluginID()
@@ -115,9 +116,9 @@
         function UpdateDirection()
 
             local im_dim = WindowImageInfo(win, "compass" .. direction, 2)
-            local im_scale = win_dims / im_dim
+            local im_scale = win_dim / im_dim
 
-            WindowRectOp(win, 2, 0, 0,  200, 200, ColourNameToRGB(background_colour))
+            WindowRectOp(win, 2, 0, 0, win_dim, win_dim, ColourNameToRGB(background_colour))
 
             if b_is_whirpool == true then
 
@@ -125,7 +126,7 @@
             else
                 WindowTransformImage(win, "compass" .. direction, 0, 0, 3, im_scale, 0, 0, im_scale)
             end
-            WindowRectOp(win, 1, win_dims - 10, win_dims - 10, win_dims, win_dims, ColourNameToRGB("magenta"))
+            WindowRectOp(win, 1, win_dim - 10, win_dim - 10, win_dim, win_dim, ColourNameToRGB("magenta"))
         end
 
         -- usage currentVal = CircularValue(currentVal +/- value)
@@ -143,6 +144,12 @@
 
             direction = 0
             b_is_whirpool = false
+            UpdateDirection()
+        end
+
+        function SetColour(_, _, colour)
+
+            background_colour = tostring(colour[1])
             UpdateDirection()
         end
 
@@ -169,7 +176,7 @@
         function MouseDownHotspotTwo(flags, hotspot_id)
 
             hs2_start_x, hs2_start_y = WindowInfo(win, 17), WindowInfo(win, 18)
-            temp_dims = win_dims
+            temp_dim = win_dim
         end
 
         function DragMoveHotspotOne(flags, hotspot_id)
@@ -187,20 +194,27 @@
 
         function DragMoveHotspotTwo(flags, hotspot_id)
 
-            local hs2_pos_x, hs2_pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
+            local hs2_pos_y = WindowInfo(win, 18)
 
-            scale_x = hs2_pos_x / hs2_start_x
-            win_dims = math.floor((temp_dims * scale_x) + 0.5)
+            scale = hs2_pos_y / hs2_start_y
+            win_dim = math.floor((temp_dim * scale) + 0.5)
+            print(win_dim)
             
-            WindowResize(win, win_dims, win_dims, ColourNameToRGB ("magenta"))
+            WindowResize(win, win_dim, win_dim, ColourNameToRGB ("magenta"))
+        end
+
+        function MouseUpHotspotOne(flags, hotspot_id)
+
+            SaveState()
         end
 
         function MouseUpHotspotTwo(flags, hotspot_id)
 
-            WindowMoveHotspot(win, "hs2", win_dims - 10, win_dims - 10, win_dims, win_dims)
-            WindowMoveHotspot(win, "hs1", 10, 10, win_dims - 10, win_dims - 10)
+            WindowMoveHotspot(win, "hs2", win_dim - 10, win_dim - 10, win_dim, win_dim)
+            WindowMoveHotspot(win, "hs1", 10, 10, win_dim - 10, win_dim - 10)
             
             UpdateDirection()
+            SaveState()
         end
 
         function InitWindow()
@@ -225,10 +239,10 @@
                             "",   -- MouseOver
                             "",   -- CancelMouseOver
                             "MouseDownHotspotOne",
-                            "", 
+                            "MouseUpHotspotOne", 
                             "", 
                             "",  -- tooltip text
-                            1, 0)  -- hand cursor
+                            0, 0)  -- hand cursor
                             
             WindowDragHandler(win, "hs1", "DragMoveHotspotOne", "", 0) 
 
@@ -240,7 +254,7 @@
                             "MouseUpHotspotTwo",
                             "",
                             "",
-                            6, 0)
+                            9, 0)
 
             WindowDragHandler(win, "hs2", "DragMoveHotspotTwo", "", 0)
 
@@ -255,27 +269,37 @@
     <aliases>
         <alias
             script="ToggleWindow"
-            match="^!sailwin"
+            match="!compass toggle"
             enabled="y"
             sequence="10"
             ignore_case="y"
-            regexp="y"
+            regexp="n"
         >
         </alias>
 
         <alias
             script="ResetPosition"
-            match="^!sailpos"
+            match="!compass position"
             enabled="y"
             sequence="11"
             ignore_case="y"
-            regexp="y"
+            regexp="n"
         >
         </alias>
 
         <alias
             script="ResetHeading"
-            match="^!sailres"
+            match="!compass heading"
+            enabled="y"
+            sequence="11"
+            ignore_case="y"
+            regexp="n"
+        >
+        </alias>
+
+        <alias
+            script="SetColour"
+            match="!compass colour (.+)"
             enabled="y"
             sequence="11"
             ignore_case="y"
