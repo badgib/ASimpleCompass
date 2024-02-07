@@ -13,6 +13,7 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * added auto show/hide on start/end of sail
 * window is resizable
 * background colours can be switched without editing the plugin
+* size can be reset with '!compass size'
 
 ### installation ###
 
@@ -34,6 +35,7 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * !compass toggle - toggles the window visibility
 * !compass position - resets the window position
 * !compass heading - resets the heading
+* !compass size - resets the size of the window
 * !compass colour <name> - changes background colour (string name)
 
 ### one more thing ###
