@@ -153,7 +153,6 @@
             im_scale = tonumber(wildcards[1]) / 100
             dim_scaled = im_dim * im_scale
 
-            print("scale: " .. im_scale .. " dim: " .. im_dim .. " input: " .. wildcards[1])
             WindowResize(win, dim_scaled, dim_scaled, ColourNameToRGB ("magenta"))
             UpdateDirection()
         end
@@ -183,7 +182,6 @@
 
             hs1_start_x, hs1_start_y = WindowInfo(win, 14), WindowInfo(win, 15)
         end
-
 
         function DragMoveHotspot(flags, hotspot_id)
             local hs1_pos_x, hs1_pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
