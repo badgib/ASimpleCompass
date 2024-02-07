@@ -50,7 +50,6 @@
                 else
                     direction = CircularValue(direction + 1)
                 end
-
             end
             UpdateDirection()
         end
