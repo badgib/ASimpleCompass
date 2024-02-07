@@ -1,16 +1,13 @@
 ## a simple compass for MUSHClient ##
 
 made for sailing in discworld
-
-images weren't that important
-* i'm tired
-  * will fix it
-soon
+keeps track of current heading based on messages being displayed
 
 ### what's new ###
 
-added auto show/hide on start/end of sail
-window is resizable
+* added auto show/hide on start/end of sail
+* window is resizable
+* background colours can be switched without editing the plugin
 
 ### installation ###
 
@@ -29,9 +26,10 @@ window is resizable
 
 ### commands ###
 
-* !sailwin - toggles the window visibility
-* !sailpos - resets the window position
-* !sailres - resets the heading 
+* !compass toggle - toggles the window visibility
+* !compass position - resets the window position
+* !compass heading - resets the heading
+* !compass colour <name> - changes background colour (string name)
 
 ### one more thing ###
 
@@ -53,3 +51,4 @@ should be removed
 ## TODO ##
 * fix graphics
 * fix the weird behaviour when window is smaller (black border on bottom right)
+* find out why it is so sluggish at resizing window without print function... which is mindboggling
