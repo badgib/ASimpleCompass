@@ -198,9 +198,9 @@
 
             scale = hs2_pos_y / hs2_start_y
             win_dim = math.floor((temp_dim * scale) + 0.5)
-            print(win_dim)
             
             WindowResize(win, win_dim, win_dim, ColourNameToRGB ("magenta"))
+            UpdateDirection()
         end
 
         function MouseUpHotspotOne(flags, hotspot_id)
@@ -212,8 +212,7 @@
 
             WindowMoveHotspot(win, "hs2", win_dim - 10, win_dim - 10, win_dim, win_dim)
             WindowMoveHotspot(win, "hs1", 10, 10, win_dim - 10, win_dim - 10)
-            
-            UpdateDirection()
+
             SaveState()
         end
 
