@@ -74,12 +74,17 @@
 
         function HandleStart(_, _, wildcards)
 
+            if wildcards[1] == "Chidder" then
+
+                b_eph_to_am = true
+            else
+                b_eph_to_am = false
+            end
             WindowShow(win, true)
             direction = 0
             b_is_whirpool = false
             b_win_visibility = true
             UpdateDirection(0)
-            
         end
 
         function HandleFinish(_, _, wildcards)
@@ -89,48 +94,33 @@
             b_win_visibility = false
         end
 
-        function HandleAM(_, _, wildcards)
-
-            b_eph_to_am = true
-        end
-
-        function HandleEph(_, _, wildcards)
-
-            b_eph_to_am = false
-        end
-        
         function HandleDirection(_, _, wildcards)
 
             local wildcard = wildcards[1]
             local value = 0
             if wildcard == "hubwards" then
-                value = 0
+                value = b_eph_to_am and 0 or 4
             elseif wildcard == "widdershins-hubwards" then
-                value = 1
+                value = b_eph_to_am and 1 or 5
             elseif wildcard == "widdershins" then
-                value = 2
+                value = b_eph_to_am and 2 or 6
             elseif wildcard == "widdershins-rimwards" then
-                value = 3
+                value = b_eph_to_am and 3 or 7
             elseif wildcard == "rimwards" then
-                value = 4
+                value = b_eph_to_am and 4 or 0
             elseif wildcard == "turnwise-rimwards" then
-                value = 5
+                value = b_eph_to_am and 5 or 1
             elseif wildcard == "turnwise" then
-                value = 6
+                value = b_eph_to_am and 6 or 2
             elseif wildcard == "turnwise-hubwards" then
-                value = 7
+                value = b_eph_to_am and 7 or 3
             else
                 print("unknown direction: " .. wildcard[1])
                 value = 0
             end
 
             b_is_whirpool = false
-            if b_eph_to_am == true then
-
-                direction = value
-            else
-                direction = math.abs(value - 4)
-            end
+            direction = value
             UpdateDirection()
         end
 
@@ -354,8 +344,8 @@
         <trigger
             enabled="y"
             keep_evaluating="n"
-            match="The loading of the ship complete, Chidder wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
-            regexp="n"
+            match="^The loading of the ship complete, (Chidder|Captain Smith) wishes you a safe and profitable trip as you climb aboard the SS Unsinkable."
+            regexp="y"
             sequence="12"
             script="HandleStart"
             name="MissionStart"
@@ -370,28 +360,6 @@
             sequence="12"
             script="HandleFinish"
             name="MissionFinish"
-        >
-        </trigger>
-
-        <trigger
-            enabled="y"
-            keep_evaluating="n"
-            match="[hidden corner of the underdocks]"
-            regexp="n"
-            sequence="12"
-            script="HandleAM"
-            name="AtSmith"
-        >
-        </trigger>
-
-        <trigger
-            enabled="y"
-            keep_evaluating="n"
-            match="[mysterious cove]"
-            regexp="n"
-            sequence="12"
-            script="HandleEph"
-            name="AtChidder"
         >
         </trigger>
     </triggers>
