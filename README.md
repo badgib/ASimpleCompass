@@ -15,7 +15,7 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * background colour can be switched without editing the plugin
 * size can be reset with '!compass size
 * no need for full path! just the plugin directory name
-* supports bot AM to Ephebe and Ephebe to AM routes!
+* supports both AM to Ephebe and Ephebe to AM routes!
 
 ### installation ###
 
