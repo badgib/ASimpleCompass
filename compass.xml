@@ -26,6 +26,7 @@
         im_scale = 1
         dim_scaled = 0
         direction = 0
+        b_eph_to_am = false
         b_is_whirpool = false
         win = GetPluginID()
 
@@ -88,6 +89,16 @@
             b_win_visibility = false
         end
 
+        function HandleAM(_, _, wildcards)
+
+            b_eph_to_am = true
+        end
+
+        function HandleEph(_, _, wildcards)
+
+            b_eph_to_am = false
+        end
+        
         function HandleDirection(_, _, wildcards)
 
             local wildcard = wildcards[1]
@@ -114,7 +125,12 @@
             end
 
             b_is_whirpool = false
-            direction = value
+            if b_eph_to_am == true then
+
+                direction = value
+            else
+                direction = math.abs(value - 4)
+            end
             UpdateDirection()
         end
 
@@ -203,7 +219,7 @@
 
         function InitWindow()
 
-            WindowCreate(win, 0, 0, im_dim, im_dim, 7, 0, ColourNameToRGB(background_colour))  -- create window
+            WindowCreate(win, 0, 0, im_dim, im_dim, 12, 0, ColourNameToRGB(background_colour))  -- create window
             WindowLoadImage(win, "compass0", plugin_dir .. "compass0.png")
             WindowLoadImage(win, "compass1", plugin_dir .. "compass1.png")
             WindowLoadImage(win, "compass2", plugin_dir .. "compass2.png")
@@ -334,6 +350,7 @@
             name="ShipDirection"
         >
         </trigger>
+
         <trigger
             enabled="y"
             keep_evaluating="n"
@@ -344,6 +361,7 @@
             name="MissionStart"
         >
         </trigger>
+
         <trigger
             enabled="y"
             keep_evaluating="n"
@@ -352,6 +370,28 @@
             sequence="12"
             script="HandleFinish"
             name="MissionFinish"
+        >
+        </trigger>
+
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="[hidden corner of the underdocks]"
+            regexp="n"
+            sequence="12"
+            script="HandleAM"
+            name="AtSmith"
+        >
+        </trigger>
+
+        <trigger
+            enabled="y"
+            keep_evaluating="n"
+            match="[mysterious cove]"
+            regexp="n"
+            sequence="12"
+            script="HandleEph"
+            name="AtChidder"
         >
         </trigger>
     </triggers>
