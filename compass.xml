@@ -199,7 +199,7 @@
 
         function ResetPosition()
 
-            WindowPosition(win, 0, 0, 7, 0)
+            WindowPosition(win, 0, 0, 12, 0)
         end
 
         function ResetHeading()
@@ -231,7 +231,7 @@
 
                 WindowShow(win, true)
                 b_win_visibility = true
-                UpdateDirection(0)
+                UpdateDirection()
             else
                 WindowShow(win, false)
                 b_win_visibility = false
