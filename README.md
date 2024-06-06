@@ -9,6 +9,7 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 
 ### what's new ###
 
+* !compass reverse for those rare situations when it gets confused
 * all new graphics provided by Kiki!
 * added auto show/hide on start/end of sail
 * window is resizable (__!compass size \<value\>__)
@@ -40,6 +41,7 @@ Kiki totally for testing, finding issues i didn't notice and, of course, the new
 * !compass heading - resets the heading
 * !compass size \<value\> - changes the size of the window
 * !compass colour \<name\> - changes background colour (string name)
+* !compass reverse - switches the direction it's pointing
 
 ### one more thing ###
 
