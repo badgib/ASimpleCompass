@@ -197,6 +197,11 @@
             return (val % 16) % 8
         end
 
+        function ResetDirection()
+
+            b_eph_to_am = !b_eph_to_am
+        end
+
         function ResetPosition()
 
             WindowPosition(win, 0, 0, 12, 0)
@@ -311,7 +316,7 @@
 
     <aliases>
         <alias
-            script="ToggleWindow"
+            scriptb_eph_to_am="ToggleWindow"
             match="!compass toggle"
             enabled="y"
             sequence="10"
@@ -330,6 +335,16 @@
         >
         </alias>
 
+        <alias
+            script="ResetDirection"
+            match="!compass reverse"
+            enabled="y"
+            sequence="11"
+            ignore_case="y"
+            regexp="n"
+        >
+        </alias>
+        
         <alias
             script="ResetHeading"
             match="!compass heading"
