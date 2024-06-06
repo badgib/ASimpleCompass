@@ -199,7 +199,8 @@
 
         function ResetDirection()
 
-            b_eph_to_am = !b_eph_to_am
+            b_eph_to_am = not b_eph_to_am
+            UpdateDirection()
         end
 
         function ResetPosition()
