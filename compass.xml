@@ -317,7 +317,7 @@
 
     <aliases>
         <alias
-            scriptb_eph_to_am="ToggleWindow"
+            script="ToggleWindow"
             match="!compass toggle"
             enabled="y"
             sequence="10"
