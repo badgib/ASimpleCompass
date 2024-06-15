@@ -27,8 +27,8 @@
         direction = 0
         b_eph_to_am = false
         b_is_whirpool = false
-        win_x = 0
-        win_y = 0
+        my_win_x = 0
+        my_win_y = 0
         win = GetPluginID()
 
         function OnPluginInstall()
@@ -47,8 +47,8 @@
             SetVariable("im_dim", im_dim)
             SetVariable("im_scale", im_scale)
             SetVariable("dim_scaled", dim_scaled)
-            SetVariable("win_x", win_x)
-            SetVariable("win_y", win_y)
+            SetVariable("my_win_x", my_win_x)
+            SetVariable("my_win_y", my_win_y)
         end
         
         function LoadTheVars()
@@ -77,16 +77,16 @@
                 dim_scaled = 0
             end
 
-            win_x = tonumber(GetVariable("win_x"))
-            if win_x == nil then
+            my_win_x = tonumber(GetVariable("my_win_x"))
+            if my_win_x == nil then
 
-                win_x = 0
+                my_win_x = 0
             end
 
-            win_y = tonumber(GetVariable("win_y"))
-            if win_y == nil then
+            my_win_y = tonumber(GetVariable("my_win_y"))
+            if my_win_y == nil then
 
-                win_y = 0
+                my_win_y = 0
             end
         end
 
@@ -253,9 +253,9 @@
         function DragMoveHotspot(flags, hotspot_id)
             local hs1_pos_x, hs1_pos_y = WindowInfo(win, 17), WindowInfo(win, 18)
 
-            win_x = hs1_pos_x - hs1_start_x
-            win_y = hs1_pos_y - hs1_start_y
-            WindowPosition(win, win_x, win_y, 0, 2);
+            my_win_x = hs1_pos_x - hs1_start_x
+            my_win_y = hs1_pos_y - hs1_start_y
+            WindowPosition(win, my_win_x, my_win_y, 0, 2);
 
             if hs1_pos_x < 0 or hs1_pos_x > GetInfo(281) or
                 hs1_pos_y < 0 or hs1_pos_y > GetInfo(280) then
@@ -274,11 +274,11 @@
         function InitWindow()
 
             LoadTheVars()
-            if win_x == 0 and win_y == 0 then
+            if my_win_x == 0 and my_win_y == 0 then
 
                 WindowCreate(win, 0, 0, im_dim, im_dim, 12, 0, ColourNameToRGB(background_colour))  -- create window
             else
-                WindowCreate(win, win_x, win_y, dim_scaled, dim_scaled, 12, 2, ColourNameToRGB(background_colour))
+                WindowCreate(win, my_win_x, my_win_y, dim_scaled, dim_scaled, 12, 2, ColourNameToRGB(background_colour))
             end
 
             WindowLoadImage(win, "compass0", plugin_dir .. "compass0.png")
