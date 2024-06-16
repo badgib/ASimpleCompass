@@ -22,8 +22,8 @@
 
         background_colour = "black"
         im_dim = 134
-        im_scale = 1
-        dim_scaled = 0
+        im_scale = 100
+        dim_scaled = 134
         direction = 0
         b_eph_to_am = false
         b_is_whirpool = false
@@ -68,13 +68,13 @@
             im_scale = tonumber(GetVariable("im_scale"))
             if im_scale == nil then
 
-                im_scale = 1
+                im_scale = 100
             end
 
             dim_scaled = tonumber(GetVariable("dim_scaled"))
             if dim_scaled == nil then
 
-                dim_scaled = 0
+                dim_scaled = 134
             end
 
             my_win_x = tonumber(GetVariable("my_win_x"))
