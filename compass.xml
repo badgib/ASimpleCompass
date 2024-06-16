@@ -23,7 +23,7 @@
         background_colour = "black"
         im_dim = 134
         im_scale = 100
-        dim_scaled = 134
+        dim_scaled = 0
         direction = 0
         b_eph_to_am = false
         b_is_whirpool = false
@@ -68,13 +68,13 @@
             im_scale = tonumber(GetVariable("im_scale"))
             if im_scale == nil then
 
-                im_scale = 100
+                im_scale = 1
             end
 
             dim_scaled = tonumber(GetVariable("dim_scaled"))
             if dim_scaled == nil then
 
-                dim_scaled = 134
+                dim_scaled = 0
             end
 
             my_win_x = tonumber(GetVariable("my_win_x"))
@@ -292,6 +292,7 @@
             WindowLoadImage(win, "whirpool", plugin_dir .. "whirpool.png")
 
             im_dim = WindowImageInfo(win, "compass" .. direction, 2)
+            dim_scaled = im_dim * im_scale
 
             UpdateDirection()
 
